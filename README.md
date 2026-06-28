@@ -4,6 +4,12 @@ A reusable, distributable Swift library for orchestrating [cmdstan](https://mc-s
 
 Extracted and curated from [SwiftStan](https://github.com/SwiftProjectOrganization/SwiftStan), which also bundles a command-line tool. This package is library-only.
 
+**Swift Package Manager:**
+```swift
+.package(url: "https://github.com/SwiftProjectOrganization/SwiftStanLibrary", from: "1.0.0")
+```
+**Xcode:** File → Add Package Dependencies → `https://github.com/SwiftProjectOrganization/SwiftStanLibrary` → add product `SwiftStan`.
+
 ## Products
 
 - **`SwiftStan`** — the library module (import as `import SwiftStan`).
