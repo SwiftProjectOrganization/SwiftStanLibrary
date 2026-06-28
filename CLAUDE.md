@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-SwiftStanLibrary is a **library-only** Swift package (no CLI, no executable) that exposes 13 public commands and a Swift result-builder DSL for interacting with [cmdstan](https://mc-stan.org/docs/2_37/cmdstan-guide/). macOS 14+; Swift 6; no external dependencies.
+SwiftStanLibrary is a **library-only** Swift package (no CLI, no executable) that exposes 14 public commands and a Swift result-builder DSL for interacting with [cmdstan](https://mc-stan.org/docs/2_37/cmdstan-guide/). macOS 14+; Swift 6; no external dependencies.
 
 Extracted from [SwiftStan](https://github.com/SwiftProjectOrganization/SwiftStan). The canonical SwiftStan package (with CLI) is at `../SwiftStan`; this package is the curation of its library layer for downstream consumers.
 
@@ -30,13 +30,14 @@ The module name is `SwiftStan` (package name is `SwiftStanLibrary`), so consumer
 
 ### Source layout (`Sources/SwiftStan/`)
 
-- `Commands/` — the 13 public command functions (top-level free functions). This is the primary public API.
+- `Commands/` — 12 public command functions (top-level free functions). This is the primary public API.
 - `Methods/` — **internal** low-level cmdstan argument builders / shell-out wrappers (called by Commands, not entry points).
 - `Support/` — mixed: `CasePaths`, `RunInfoIO`, `StanSchema` are public (useful to consumers navigating the case layout or reading run output); the rest is **internal** post-processing plumbing.
 - `Helpers/` — **internal** bootstrap helpers (install example files).
 - `Ulam/` — the DSL and codegen engine:
   - `AST/`, `Builder/`, `Data/` — all **public** (the result-builder DSL contract).
   - `Generator/` — `StanCodeGenerator` is **internal**; the public entry is `stancode(_ model: UlamModel) throws -> String`.
+  - `Ulam.swift` — two additional **public** orchestrators: `ulam(_ model: UlamModel, ...)` (V1 in-memory DSL→compile→sample) and `ulamPipeline(model: String, ...)` (V2 file-based alist→Stan→compile→sample). These bring the total public command count to 14.
   - `Alist/`, `Stan2Alist/` — **internal** (parser/emitter pipeline types).
 
 ### Key missing command vs. original SwiftStan

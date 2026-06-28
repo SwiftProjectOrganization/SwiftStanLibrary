@@ -27,6 +27,7 @@ Extracted and curated from [SwiftStan](https://github.com/SwiftProjectOrganizati
 | `laplace(model:arguments:cmdstan:verbose:)` | Laplace approximation |
 | `generated_Quantities(model:arguments:cmdstan:verbose:)` | Post-sampling generated quantities |
 | `stansummary(model:arguments:cmdstan:verbose:)` | Run cmdstan's `stansummary` |
+| `ulam(_:name:cmdstan:verbose:arguments:)` | DSL model → compile → sample (in-memory, no alist.R needed) |
 | `ulamPipeline(model:cmdstan:verbose:force:arguments:)` | Full pipeline: alist→Stan→compile→sample |
 
 All cmdstan commands take `cmdstan: String` (path to the cmdstan installation) and `model: String` (name of the case under `~/Documents/StanCases/`, configurable via `$STAN_CASES`). They return `(String, String)` — `.0` is a human-readable status, `.1` is an error message (`""` on success).
