@@ -6,7 +6,7 @@ Extracted and curated from [SwiftStan](https://github.com/SwiftProjectOrganizati
 
 **Swift Package Manager:**
 ```swift
-.package(url: "https://github.com/SwiftProjectOrganization/SwiftStanLibrary", from: "1.0.0")
+.package(url: "https://github.com/SwiftProjectOrganization/SwiftStanLibrary", from: "1.1.0")
 ```
 **Xcode:** File → Add Package Dependencies → `https://github.com/SwiftProjectOrganization/SwiftStanLibrary` → add product `SwiftStan`.
 
