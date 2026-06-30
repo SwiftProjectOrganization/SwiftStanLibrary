@@ -10,9 +10,10 @@ import Foundation
 public func optimize(model: String = "bernoulli",
                      arguments: [String] = [],
                      cmdstan: String,
-                     verbose: Bool = false) -> (String, String) {
+                     verbose: Bool = false,
+                     caseRoot: URL? = nil) -> (String, String) {
 
-  let dirUrl = casePaths(for: model).results
+  let dirUrl = casePaths(for: model, root: caseRoot).results
 
   let result = stanOptimize(dirUrl: dirUrl,
                             modelName: model,

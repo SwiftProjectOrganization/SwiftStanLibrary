@@ -46,8 +46,9 @@ public enum Stan2AlistError: Error, CustomStringConvertible {
 @discardableResult
 public func stan2alist(model: String,
                        verbose: Bool = false,
-                       force: Bool = false) throws -> URL {
-  let paths = casePaths(for: model)
+                       force: Bool = false,
+                       caseRoot: URL? = nil) throws -> URL {
+  let paths = casePaths(for: model, root: caseRoot)
   try ensureCaseDirectories(paths, verbose: verbose)
 
   let stanURL = paths.results.appendingPathComponent("\(model).stan")

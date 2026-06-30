@@ -17,8 +17,8 @@ import Foundation
 /// paths stripped to basenames + sorted keys. Returns the URL of the
 /// cleaned file.
 @discardableResult
-public func runinfo(model: String, verbose: Bool = false) throws -> URL {
-  let paths = casePaths(for: model)
+public func runinfo(model: String, verbose: Bool = false, caseRoot: URL? = nil) throws -> URL {
+  let paths = casePaths(for: model, root: caseRoot)
   try ensureCaseDirectories(paths, verbose: verbose)
 
   let info = try readRunInfo(dirUrl: paths.results, modelName: model)

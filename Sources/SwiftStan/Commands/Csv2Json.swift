@@ -50,8 +50,8 @@ public enum Csv2JsonError: Error, CustomStringConvertible {
 }
 
 @discardableResult
-public func csv2json(model: String, verbose: Bool = false) throws -> URL {
-  let paths = casePaths(for: model)
+public func csv2json(model: String, verbose: Bool = false, caseRoot: URL? = nil) throws -> URL {
+  let paths = casePaths(for: model, root: caseRoot)
   try ensureCaseDirectories(paths, verbose: verbose)
 
   let csvURL = paths.preliminaries.appendingPathComponent("\(model).csv")

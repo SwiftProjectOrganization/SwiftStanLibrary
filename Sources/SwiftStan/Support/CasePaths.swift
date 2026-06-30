@@ -39,13 +39,20 @@ public func caseRoot() -> URL {
 /// `(preliminaries, results)` URLs for `<name>` under the case root.
 /// Does not create the directories — use `ensureCaseDirectories(_:)`
 /// for that.
-public func casePaths(for model: String) -> CasePaths {
-  let modelDir = caseRoot().appendingPathComponent(model, isDirectory: true)
+/// Overload that accepts an explicit case root, bypassing env/Documents resolution.
+/// Pass `nil` to use the default `caseRoot()` resolution.
+public func casePaths(for model: String, root: URL?) -> CasePaths {
+  let base = root ?? caseRoot()
+  let modelDir = base.appendingPathComponent(model, isDirectory: true)
   return CasePaths(
     model: model,
     preliminaries: modelDir.appendingPathComponent("Preliminaries", isDirectory: true),
     results: modelDir.appendingPathComponent("Results", isDirectory: true)
   )
+}
+
+public func casePaths(for model: String) -> CasePaths {
+  casePaths(for: model, root: nil)
 }
 
 public func ensureCaseDirectories(_ paths: CasePaths,

@@ -12,7 +12,8 @@ public func sample(model: String,
                    cmdstan: String,
                    verbose: Bool = false,
                    nosummary: Bool = false,
-                   install: Bool = false) -> (String, String) {
+                   install: Bool = false,
+                   caseRoot: URL? = nil) -> (String, String) {
 
   // 2026-06-02: merge defaults per-key instead of dropping the whole
   // defaults block whenever the user supplies any argument. Previously
@@ -31,7 +32,7 @@ public func sample(model: String,
   }
 
     _ = FileManager.default
-  let paths = casePaths(for: model)
+  let paths = casePaths(for: model, root: caseRoot)
   let dirUrl = paths.results
 
   do {

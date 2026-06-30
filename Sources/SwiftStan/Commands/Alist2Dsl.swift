@@ -32,8 +32,8 @@ public enum Alist2DslError: Error, CustomStringConvertible {
 }
 
 @discardableResult
-public func alist2dsl(model: String, verbose: Bool = false) throws -> URL {
-  let paths = casePaths(for: model)
+public func alist2dsl(model: String, verbose: Bool = false, caseRoot: URL? = nil) throws -> URL {
+  let paths = casePaths(for: model, root: caseRoot)
   try ensureCaseDirectories(paths, verbose: verbose)
 
   let alistURL = paths.preliminaries.appendingPathComponent("\(model).alist.R")

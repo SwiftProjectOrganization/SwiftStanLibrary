@@ -12,10 +12,11 @@ public func compile(model: String = "bernoulli",
                     cmdstan: String,
                     verbose: Bool = false,
                     install: Bool = false,
-                    force: Bool = false) -> (String, String) {
+                    force: Bool = false,
+                    caseRoot: URL? = nil) -> (String, String) {
 
   let fileManager = FileManager.default
-  let paths = casePaths(for: model)
+  let paths = casePaths(for: model, root: caseRoot)
   let dirUrl = paths.results
 
   do {

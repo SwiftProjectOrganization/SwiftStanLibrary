@@ -37,8 +37,8 @@ public enum StancodeError: Error, CustomStringConvertible {
 /// Top-level entry for the `stancode` CLI subcommand. Overloads on
 /// `(_ model: UlamModel)` cleanly — the label `model:` disambiguates.
 @discardableResult
-public func stancode(model: String, verbose: Bool = false) throws -> URL {
-  let paths = casePaths(for: model)
+public func stancode(model: String, verbose: Bool = false, caseRoot: URL? = nil) throws -> URL {
+  let paths = casePaths(for: model, root: caseRoot)
   try ensureCaseDirectories(paths, verbose: verbose)
 
   let alistURL = paths.preliminaries.appendingPathComponent("\(model).alist.R")

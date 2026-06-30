@@ -32,9 +32,10 @@ import Foundation
 public func laplace(model: String = "bernoulli",
                     arguments: [String] = [],
                     cmdstan: String,
-                    verbose: Bool = false) -> (String, String) {
+                    verbose: Bool = false,
+                    caseRoot: URL? = nil) -> (String, String) {
 
-  let dirUrl = casePaths(for: model).results
+  let dirUrl = casePaths(for: model, root: caseRoot).results
 
   var laplaceArgs: [String] = ["laplace"]
   let hasUserMode = arguments.contains { $0.hasPrefix("mode=") }

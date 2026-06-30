@@ -7,9 +7,10 @@ import Foundation
 public func generated_Quantities(model: String = "bernoulli",
                                 arguments: [String] = [],
                                 cmdstan: String,
-                                verbose: Bool = false) -> (String, String) {
+                                verbose: Bool = false,
+                                caseRoot: URL? = nil) -> (String, String) {
 
-  let paths = casePaths(for: model)
+  let paths = casePaths(for: model, root: caseRoot)
   let dirUrl = paths.results
 
   // Warn if the .stan file has no `generated quantities` block —

@@ -10,9 +10,10 @@ import Foundation
 public func pathfinder(model: String = "bernoulli",
                        arguments: [String] = [],
                        cmdstan: String,
-                       verbose: Bool = false) -> (String, String) {
+                       verbose: Bool = false,
+                       caseRoot: URL? = nil) -> (String, String) {
 
-  let dirUrl = casePaths(for: model).results
+  let dirUrl = casePaths(for: model, root: caseRoot).results
 
   var result = stanPathfinder(dirUrl: dirUrl,
                               modelName: model,

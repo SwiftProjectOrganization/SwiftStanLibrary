@@ -24,7 +24,8 @@ public func ulam(_ model: UlamModel,
                  name: String = "model",
                  cmdstan: String,
                  verbose: Bool = false,
-                 arguments: [String] = []) -> (String, String) {
+                 arguments: [String] = [],
+                 caseRoot: URL? = nil) -> (String, String) {
 
   let stanSource: String
   let dataJSON: Data
@@ -39,7 +40,7 @@ public func ulam(_ model: UlamModel,
     return ("", "ulam: generator error: \(error)")
   }
 
-  let paths = casePaths(for: name)
+  let paths = casePaths(for: name, root: caseRoot)
   do {
     try ensureCaseDirectories(paths, verbose: verbose)
   } catch {
@@ -68,7 +69,8 @@ public func ulam(_ model: UlamModel,
                               arguments: arguments,
                               cmdstan: cmdstan,
                               verbose: verbose,
-                              install: false)
+                              install: false,
+                              caseRoot: caseRoot)
   if compileResult.1 != "" {
     return compileResult
   }
@@ -78,11 +80,12 @@ public func ulam(_ model: UlamModel,
                 cmdstan: cmdstan,
                 verbose: verbose,
                 nosummary: false,
-                install: false)
+                install: false,
+                caseRoot: caseRoot)
 }
 
 /// V2.1 file-based orchestrator. Resolves `<root>/<name>/{Preliminaries,Results}/`
-/// via `casePaths(for:)` and chains the four-step pipeline:
+/// via `casePaths(for:root:)` and chains the four-step pipeline:
 ///
 ///   dsl2stan  ←  Preliminaries/*.ulam.swift   → Results/<name>.stan
 ///   csv2json  ←  Preliminaries/<name>.csv +
@@ -97,8 +100,9 @@ public func ulamPipeline(model: String,
                          cmdstan: String,
                          verbose: Bool = false,
                          force: Bool = false,
-                         arguments: [String] = []) -> (String, String) {
-  let paths = casePaths(for: model)
+                         arguments: [String] = [],
+                         caseRoot: URL? = nil) -> (String, String) {
+  let paths = casePaths(for: model, root: caseRoot)
   do {
     try ensureCaseDirectories(paths, verbose: verbose)
   } catch {
@@ -124,7 +128,7 @@ public func ulamPipeline(model: String,
     if isStale(input: alistURL, output: stanURL) {
       if verbose { print("ulamPipeline: stancode (\(model).alist.R → \(model).stan)") }
       do {
-        _ = try stancode(model: model, verbose: verbose)
+        _ = try stancode(model: model, verbose: verbose, caseRoot: caseRoot)
       } catch {
         return ("", "ulamPipeline: stancode failed: \(error)")
       }
@@ -145,7 +149,7 @@ public func ulamPipeline(model: String,
     if isStale(input: csvURL, output: dataURL) {
       if verbose { print("ulamPipeline: csv2json (\(model).csv → \(model).data.json)") }
       do {
-        _ = try csv2json(model: model, verbose: verbose)
+        _ = try csv2json(model: model, verbose: verbose, caseRoot: caseRoot)
       } catch {
         return ("", "ulamPipeline: csv2json failed: \(error)")
       }
@@ -162,7 +166,8 @@ public func ulamPipeline(model: String,
                               cmdstan: cmdstan,
                               verbose: verbose,
                               install: false,
-                              force: force)
+                              force: force,
+                              caseRoot: caseRoot)
   if compileResult.1 != "" { return compileResult }
 
   return sample(model: model,
@@ -170,7 +175,8 @@ public func ulamPipeline(model: String,
                 cmdstan: cmdstan,
                 verbose: verbose,
                 nosummary: false,
-                install: false)
+                install: false,
+                caseRoot: caseRoot)
 }
 
 private func isStale(input: URL, output: URL) -> Bool {
